@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 7.0新规范色值 -->
+    <color name="Color_0">#000000</color>
+    <color name="Color_A">#333333</color>
+    <color name="Color_B">#999999</color>
+    <color name="Color_C">#FFFFFF</color>
+    <color name="Color_D">#F31C1C</color>
+    <color name="Color_E">#009CFF</color>
+    <color name="Color_F">#40C48A</color>
+    <color name="Color_G">#CCCCCC</color>
+    <color name="Color_H">#F6F6F6</color>
+    <color name="Color_I">#EEEEEE</color>
+    <color name="Color_J">#F1FAFF</color>
+    <color name="Color_K">#DAD9DC</color>
+    <color name="Color_i">#EBEBEB</color>
+    <color name="Color_M">#F8F5F2</color>
+
+    <color name="Color_N">#ED513D</color>
+    <color name="Color_N1">#F39192</color>
+    <color name="Color_O">#45C89B</color>
+    <color name="Color_P">#9D9DFF</color>
+    <color name="Color_Q">#F6AF39</color>
+    <color name="Color_R">#7ECFD4</color>
+
+</resources>

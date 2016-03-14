@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/head_title"
+    android:layout_width="fill_parent"
+    android:layout_height="38dip"
+    android:background="@color/Color_C">
+
+    <RelativeLayout
+        android:id="@+id/mLeftImgLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/public_list_row_selector"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/mLeftImg"
+            style="@style/styleTitleImg"
+            android:layout_marginRight="10dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mLeftLabelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/public_list_row_selector"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/mLeftLabel"
+            style="@style/styleTitleLabel"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mMiddleLabel"
+        style="@style/styleTitle"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/app_name" />
+
+    <ImageView
+        android:id="@+id/mMiddleImg"
+        style="@style/styleTitleImg"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/mMiddleLabel"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/mMiddleLabel"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/mRightSearchLayout"
+            android:layout_width="60dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/public_list_row_selector"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/mRightSearch"
+                android:layout_width="48dip"
+                android:layout_height="48dip"
+                android:layout_centerInParent="true"
+                android:focusable="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mRightLabelLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/public_list_row_selector"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/mRightLabel"
+                style="@style/styleTitleLabel"
+                android:layout_centerInParent="true"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mRightImgLayout"
+            android:layout_width="60dip"
+            android:layout_height="match_parent"
+            android:background="@drawable/public_list_row_selector"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/mRightImg"
+                style="@style/styleTitleImg"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
