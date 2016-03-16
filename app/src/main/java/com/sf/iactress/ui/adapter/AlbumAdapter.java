@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sf.iactress.R;
 import com.sf.iactress.bean.AlbumBean;
 
@@ -53,7 +56,32 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
 
     @Override
     public void onBindViewHolder(MasonryView masonryView, int position) {
-        ImageLoader.getInstance().displayImage(mAlbumBeans.get(position).getCover(), masonryView.imageView, options);
+        ImageLoader.getInstance().displayImage(mAlbumBeans.get(position).getCover(), masonryView.imageView, options, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        }, new ImageLoadingProgressListener() {
+            @Override
+            public void onProgressUpdate(String imageUri, View view, int current, int total) {
+               // Log
+            }
+        });
         masonryView.textView.setText(mAlbumBeans.get(position).getName());
     }
 

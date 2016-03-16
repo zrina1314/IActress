@@ -1,5 +1,7 @@
 package com.sf.iactress.ui.activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.sf.iactress.R;
@@ -8,6 +10,7 @@ import com.sf.iactress.bean.AlbumBean;
 import com.sf.iactress.presenter.AlbumPresenter;
 import com.sf.iactress.ui.adapter.AlbumAdapter;
 import com.sf.iactress.ui.view.AlbumView;
+import com.sf.iactress.ui.widget.DividerItemDecoration;
 import com.sf.iactress.ui.widget.SpacesItemDecoration;
 import com.sf.widget.superrecyclerview.SuperRecyclerView;
 
@@ -22,7 +25,7 @@ import butterknife.ButterKnife;
  * 用途：
  * 描述：
  */
-public class MainActivity extends BaseActivity implements AlbumView {
+public class MainActivity extends BaseActivity implements AlbumView, SwipeRefreshLayout.OnRefreshListener {
 
     private List<AlbumBean> mAlbumList;
     @Bind(R.id.srv_album)
@@ -48,8 +51,10 @@ public class MainActivity extends BaseActivity implements AlbumView {
 //        NetworkWrapper.getAlbums(getIntent().getStringExtra("1"), mAlbumAdapter);
         mRvAlbum.setAdapter(mAlbumAdapter);
         //设置item之间的间隔
-        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
-        mRvAlbum.addItemDecoration(decoration);
+        mRvAlbum.setLayoutManager(new LinearLayoutManager(mContext));
+        mRvAlbum.setRefreshListener(this);
+        mRvAlbum.setRefreshingColorResources(android.R.color.holo_orange_light, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_red_light);
+        mRvAlbum.addItemDecoration(new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     private void initData() {
@@ -100,6 +105,11 @@ public class MainActivity extends BaseActivity implements AlbumView {
 
     @Override
     public void showError(String msg) {
+
+    }
+
+    @Override
+    public void onRefresh() {
 
     }
 
