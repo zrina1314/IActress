@@ -3,7 +3,6 @@ package com.sf.iactress.ui.activity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -14,9 +13,7 @@ import com.sf.iactress.base.Constans;
 import com.sf.iactress.bean.AlbumBean;
 import com.sf.iactress.net.controller.ServiceGenerator;
 import com.sf.iactress.net.helper.GetKanmxService;
-import com.sf.iactress.presenter.AlbumPresenter;
 import com.sf.iactress.ui.adapter.AlbumAdapter;
-import com.sf.iactress.ui.view.AlbumView;
 import com.sf.iactress.ui.widget.DividerItemDecoration;
 import com.sf.sf_utils.LogUtil;
 import com.sf.widget.superrecyclerview.OnMoreListener;
@@ -36,14 +33,12 @@ import retrofit2.Response;
  * 用途：
  * 描述：
  */
-public class MainActivity extends BaseActivity implements AlbumView, SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
-
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<AlbumBean> mAlbumList;
     @Bind(R.id.srv_album)
     SuperRecyclerView mRvAlbum;
     private AlbumAdapter mAlbumAdapter;
-    private AlbumPresenter mAlbumPresenter;
     private int page = 1;
 
     @Override
@@ -55,7 +50,6 @@ public class MainActivity extends BaseActivity implements AlbumView, SwipeRefres
     protected void initView() {
         ButterKnife.bind(this);
         mRvAlbum.setLayoutManager(new StaggeredGridLayoutManager(Constans.COLUM_COUNT, StaggeredGridLayoutManager.VERTICAL));
-        mAlbumPresenter = new AlbumPresenter(MainActivity.this, this);
         initData();
         initRecyclerView();
     }
@@ -72,10 +66,7 @@ public class MainActivity extends BaseActivity implements AlbumView, SwipeRefres
     private void initData() {
         if (mAlbumList == null)
             mAlbumList = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-        // mAlbumList.add(new AlbumBean(2, "1", "111","111"));
-//        }
-        //mAlbumPresenter.getUser();
+        getAlbumListByPage(page);
     }
 
     @Override
@@ -100,44 +91,16 @@ public class MainActivity extends BaseActivity implements AlbumView, SwipeRefres
     }
 
     @Override
-    public void updateView(List<AlbumBean> user) {
-        mAlbumList.addAll(user);
-        mAlbumAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showProgressDialog() {
-
-    }
-
-    @Override
-    public void hideProgressDialog() {
-
-    }
-
-    @Override
-    public void showError(String msg) {
-
-    }
-
-    @Override
     public void onRefresh() {
 //        mAlbumPresenter.getUser();
         page = 1;
-        getUserById(page);
+        getAlbumListByPage(page);
     }
 
     @Override
     public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
         page++;
-        getUserById(page);
-//        mAlbumPresenter.getUser();
-    }
-
-
-    // 点击的回调
-    public interface UserClickCallback {
-        void onItemClicked(String name);
+        getAlbumListByPage(page);
     }
 
     // 跳转到库详情页面
@@ -154,7 +117,7 @@ public class MainActivity extends BaseActivity implements AlbumView, SwipeRefres
     }
 
 
-    private void getUserById(final int page) {
+    private void getAlbumListByPage(final int page) {
         GetKanmxService userClient = ServiceGenerator.createService2(GetKanmxService.class);
         Call<String> call = page == 1 ? userClient.getAlbumHomePageList() : userClient.getAlbumList(page);
         call.enqueue(new Callback<String>() {
