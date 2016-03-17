@@ -35,7 +35,7 @@ import retrofit2.Response;
  */
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private List<AlbumBean> mAlbumList;
+    private List<AlbumBean> mAlbumList = new ArrayList<>();
     @Bind(R.id.srv_album)
     SuperRecyclerView mRvAlbum;
     private AlbumAdapter mAlbumAdapter;
@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void initView() {
         ButterKnife.bind(this);
         mRvAlbum.setLayoutManager(new StaggeredGridLayoutManager(Constans.COLUM_COUNT, StaggeredGridLayoutManager.VERTICAL));
-        initData();
         initRecyclerView();
     }
 
@@ -61,12 +60,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mRvAlbum.setOnMoreListener(this);
         mRvAlbum.setRefreshingColorResources(android.R.color.holo_orange_light, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_red_light);
         mRvAlbum.addItemDecoration(new DividerItemDecoration(MainActivity.this, DividerItemDecoration.VERTICAL_LIST));
-    }
-
-    private void initData() {
-        if (mAlbumList == null)
-            mAlbumList = new ArrayList<>();
-        getAlbumListByPage(page);
     }
 
     @Override
@@ -81,18 +74,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     protected void process() {
-        loadAlbumListData(1);
-    }
-
-    /**
-     * 加载数据
-     */
-    private void loadAlbumListData(int page) {
+        getAlbumListByPage(page);
     }
 
     @Override
     public void onRefresh() {
-//        mAlbumPresenter.getUser();
         page = 1;
         getAlbumListByPage(page);
     }
@@ -125,14 +111,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public void onResponse(Call<String> call, Response<String> response) {
                 String result = response.body();
                 if (!TextUtils.isEmpty(result)) {
-                    LogUtil.getLogger().i(TAG, "加载网页成功，网页内容：");
-                    LogUtil.getLogger().i(TAG, result);
                     List<AlbumBean> tempAlbumBeanList = KanmxAnalysisUtil.getInstance().getAnalysisAlbum(result);
                     if (tempAlbumBeanList != null && tempAlbumBeanList.size() > 0) {
-                        LogUtil.getLogger().i(TAG, "解析相册成功，当前第" + page + "页，共有" + tempAlbumBeanList.size() + "条数据");
                         if (page == 1)
                             mAlbumList.clear();
                         mAlbumList.addAll(tempAlbumBeanList);
+                        mAlbumAdapter.notifyItemRangeInserted(mAlbumList.size() - tempAlbumBeanList.size(), mAlbumList.size());
+                        return;
                     } else {
                         LogUtil.getLogger().i(TAG, "解析相册失败了，当前第" + page + "页");
                     }
@@ -140,7 +125,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     LogUtil.getLogger().e(TAG, "加载网页成功了，但数据为空：");
                     LogUtil.getLogger().e(TAG, result);
                 }
-
                 mAlbumAdapter.notifyDataSetChanged();
             }
 

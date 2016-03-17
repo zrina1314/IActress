@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -40,9 +41,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
         this.mItemWidth = itemWidth;
         mAlbumBeans = list;
         options = new DisplayImageOptions.Builder()
-//                .showImageOnLoading(R.drawable.ic_stub)
-//                .showImageForEmptyUri(R.drawable.ic_empty)
-//                .showImageOnFail(R.drawable.ic_error)
                 .showImageOnLoading(R.drawable.ic_default)
                 .showImageForEmptyUri(R.drawable.ic_default)
                 .showImageOnFail(R.drawable.ic_default)
@@ -50,7 +48,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-//                .displayer(new RoundedBitmapDisplayer(20))
+                .displayer(new FadeInBitmapDisplayer(100))// 淡入
                 .build();
     }
 
@@ -68,14 +66,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
             @Override
             public void onLoadingStarted(String imageUri, View view, int imageWidth, int imageHeight) {
                 if (imageWidth != 0 && imageHeight != 0) {
-                    LogUtil.getLogger().d(TAG, "onLoadingStarted : imageUri=【" + imageUri + "】,loadedImage.getWidth() = 【" + imageWidth + "】,loadedImage.getHeight() = 【" + imageHeight + "】 ");
-                    LogUtil.getLogger().d(TAG, "onLoadingStarted : 开始计算宽高");
                     int newImageHeight = (int) (((mItemWidth * 1f) / (imageWidth * 1f)) * (imageHeight * 1f));
-                    LogUtil.getLogger().d(TAG, "onLoadingStarted : 计算的结果：" + newImageHeight);
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mItemWidth, newImageHeight);
                     view.setLayoutParams(layoutParams);
-                } else {
-                    LogUtil.getLogger().e(TAG, "onLoadingStarted : imageUri=【" + imageUri + "】,loadedImage.getWidth() = 【" + imageWidth + "】,loadedImage.getHeight() = 【" + imageHeight + "】 ");
                 }
             }
 
