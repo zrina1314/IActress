@@ -3,6 +3,7 @@
     <!-- 7.0新规范色值 -->
     <color name="Color_0">#000000</color>
     <color name="Color_A">#333333</color>
+    <color name="Color_A80">#80333333</color>
     <color name="Color_B">#999999</color>
     <color name="Color_C">#FFFFFF</color>
     <color name="Color_D">#F31C1C</color>

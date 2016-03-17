@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -16,6 +18,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sf.iactress.R;
 import com.sf.iactress.bean.AlbumBean;
+import com.sf.sf_utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +29,15 @@ import java.util.List;
  * 描述：
  */
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView> {
+    private static final String TAG = AlbumAdapter.class.getSimpleName();
     private List<AlbumBean> mAlbumBeans;
     private DisplayImageOptions options;
+    private int mItemWidth = 0;
 
-    public AlbumAdapter(List<AlbumBean> list) {
+    public AlbumAdapter(List<AlbumBean> list, int itemWidth) {
         if (list == null)
             list = new ArrayList<>();
+        this.mItemWidth = itemWidth;
         mAlbumBeans = list;
         options = new DisplayImageOptions.Builder()
 //                .showImageOnLoading(R.drawable.ic_stub)
@@ -44,13 +50,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
                 .cacheOnDisk(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new RoundedBitmapDisplayer(20))
+//                .displayer(new RoundedBitmapDisplayer(20))
                 .build();
     }
 
     @Override
     public MasonryView onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_album_item, viewGroup, false);
+        //将创建的View注册点击事件
+        //view.setOnClickListener(this);
         return new MasonryView(view);
     }
 
@@ -58,28 +66,29 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
     public void onBindViewHolder(MasonryView masonryView, int position) {
         ImageLoader.getInstance().displayImage(mAlbumBeans.get(position).getCover(), masonryView.imageView, options, new ImageLoadingListener() {
             @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
+            public void onLoadingStarted(String imageUri, View view, int imageWidth, int imageHeight) {
+                if (imageWidth != 0 && imageHeight != 0) {
+                    LogUtil.getLogger().d(TAG, "onLoadingStarted : imageUri=【" + imageUri + "】,loadedImage.getWidth() = 【" + imageWidth + "】,loadedImage.getHeight() = 【" + imageHeight + "】 ");
+                    LogUtil.getLogger().d(TAG, "onLoadingStarted : 开始计算宽高");
+                    int newImageHeight = (int) (((mItemWidth * 1f) / (imageWidth * 1f)) * (imageHeight * 1f));
+                    LogUtil.getLogger().d(TAG, "onLoadingStarted : 计算的结果：" + newImageHeight);
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(mItemWidth, newImageHeight);
+                    view.setLayoutParams(layoutParams);
+                } else {
+                    LogUtil.getLogger().e(TAG, "onLoadingStarted : imageUri=【" + imageUri + "】,loadedImage.getWidth() = 【" + imageWidth + "】,loadedImage.getHeight() = 【" + imageHeight + "】 ");
+                }
             }
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
             }
 
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        }, new ImageLoadingProgressListener() {
-            @Override
-            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-               // Log
             }
         });
         masonryView.textView.setText(mAlbumBeans.get(position).getName());
@@ -87,7 +96,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
 
     @Override
     public int getItemCount() {
-        return mAlbumBeans.size();
+        return mAlbumBeans != null && mAlbumBeans.size() > 0 ? mAlbumBeans.size() : 0;
     }
 
     public static class MasonryView extends RecyclerView.ViewHolder {
@@ -105,5 +114,4 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MasonryView>
         mAlbumBeans.add(albumBean);
         notifyItemInserted(mAlbumBeans.size() - 1);
     }
-
 }

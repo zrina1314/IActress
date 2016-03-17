@@ -7,7 +7,6 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.sf.iactress.net.controller.RequestQueueHelper;
 
 public class BaseApplication extends Application {
     private static BaseApplication sInstance;
@@ -23,7 +22,6 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-        RequestQueueHelper.instance(getApplicationContext());//初始化请求队列
         initImageLoader(getApplicationContext());
     }
 

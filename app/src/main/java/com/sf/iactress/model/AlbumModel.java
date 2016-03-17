@@ -1,19 +1,8 @@
 package com.sf.iactress.model;
 
-import android.app.Application;
-import android.content.ContentValues;
 import android.content.Context;
-import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.sf.iactress.base.BaseApplication;
 import com.sf.iactress.base.Constans;
 import com.sf.iactress.bean.AlbumBean;
 
@@ -23,11 +12,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
