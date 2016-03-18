@@ -1,26 +1,33 @@
 package com.sf.iactress.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.sf.iactress.R;
 import com.sf.iactress.analysis.KanmxAnalysisUtil;
+import com.sf.iactress.analysis.KanmxPictureAnalysis;
 import com.sf.iactress.base.BaseActivity;
+import com.sf.iactress.base.BaseRecyclerViewAdapter;
 import com.sf.iactress.base.Constans;
 import com.sf.iactress.bean.AlbumBean;
 import com.sf.iactress.net.controller.ServiceGenerator;
 import com.sf.iactress.net.helper.GetKanmxService;
 import com.sf.iactress.ui.adapter.AlbumAdapter;
 import com.sf.iactress.ui.widget.DividerItemDecoration;
+import com.sf.iactress.utils.UrlUtil;
 import com.sf.sf_utils.LogUtil;
 import com.sf.widget.superrecyclerview.OnMoreListener;
 import com.sf.widget.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +40,7 @@ import retrofit2.Response;
  * 用途：
  * 描述：
  */
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener, BaseRecyclerViewAdapter.OnItemClickListener, KanmxPictureAnalysis.AnalysisListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<AlbumBean> mAlbumList = new ArrayList<>();
     @Bind(R.id.srv_album)
@@ -54,7 +61,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     private void initRecyclerView() {
-        mAlbumAdapter = new AlbumAdapter(mAlbumList, getColumWidth());
+        mAlbumAdapter = new AlbumAdapter(mContext, getColumWidth());
+        mAlbumAdapter.setData(mAlbumList);
+        mAlbumAdapter.setItemClickListener(this);
         mRvAlbum.setAdapter(mAlbumAdapter);
         mRvAlbum.setRefreshListener(this);
         mRvAlbum.setOnMoreListener(this);
@@ -89,10 +98,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         getAlbumListByPage(page);
     }
 
-    // 跳转到库详情页面
-    private void gotoDetailPage(String name) {
-        //startActivity(NetworkDetailActivity.from(NetworkActivity.this, name));
-    }
 
     public int getColumWidth() {
         //获取每列宽度
@@ -135,5 +140,76 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 mAlbumAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        AlbumBean bean = mAlbumList.get(position);
+        LogUtil.getLogger().d(TAG, "点击index=【" + position + "】，数据=【" + bean.toString() + "】");
+
+        loadPictures(bean.getLink());
+
+
+    }
+
+
+    /**
+     * 加载图片信息
+     *
+     * @param url
+     */
+    private void loadPictures(String url) {
+
+
+        KanmxPictureAnalysis kanmxPictureAnalysis = new KanmxPictureAnalysis(url);
+        kanmxPictureAnalysis.startCrawler();
+        kanmxPictureAnalysis.setAnalysisListener(this);
+//        GetKanmxService getKanmxService = ServiceGenerator.createService2(GetKanmxService.class);
+//        Call<String> call = getKanmxService.getPictureList(url);
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                String result = response.body();
+//                if (!TextUtils.isEmpty(result)) {
+//                    Map<String, Object> tempPictureMap = KanmxAnalysisUtil.getInstance().getAnalysisPicture(result);
+//
+//                    String picture = (String) tempPictureMap.get("picture");
+//                    HashMap<Integer, String> pages = (HashMap<Integer, String>) tempPictureMap.get("pages");
+//                    LogUtil.getLogger().d(TAG, "图片路径：" + picture);
+//                    //gotoDetailPage(picture, pages);
+//                } else {
+//                    LogUtil.getLogger().e(TAG, "加载网页成功了，但数据为空：");
+//                    LogUtil.getLogger().e(TAG, result);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                LogUtil.getLogger().e(TAG, "加载网页失败了，失败原因：");
+//                LogUtil.getLogger().e(TAG, t.getMessage());
+//            }
+//        });
+    }
+
+    // 跳转到库详情页面
+    private void gotoDetailPage(String url, HashMap<Integer, String> pages) {
+        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
+        intent.putExtra("picture", url);
+        intent.putExtra("pages", pages);
+        startActivity(intent);
+
+    }
+
+    // 跳转到库详情页面
+    private void gotoDetailPage(ArrayList<String> pictureList) {
+        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
+        intent.putExtra("pictures", pictureList);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void analysisComplete(List<String> pictureList) {
+        gotoDetailPage((ArrayList<String>) pictureList);
     }
 }

@@ -17,4 +17,7 @@ public interface GetKanmxService {
 
     @GET(Constans.KANMX_HOME_PAGE_URL)
     Call<String> getAlbumHomePageList();
+
+    @GET("{url}")
+    Call<String> getPictureList(@Path("url") String url);
 }

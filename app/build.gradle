@@ -38,4 +38,5 @@ dependencies {
     compile project(path: ':library')
     compile 'com.squareup.retrofit2:retrofit-converters:2.0.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.commit451:PhotoView:1.2.5'
 }

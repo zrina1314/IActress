@@ -1,5 +1,8 @@
 package com.sf.iactress.bean;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by 花心大萝卜 on 2016/3/6.
  * 用途：相册实体
@@ -10,6 +13,7 @@ public class AlbumBean {
     private String name;
     private String cover;
     private String link;
+    private Map<Integer, String> pictures;
 
     public AlbumBean() {
     }
@@ -73,5 +77,24 @@ public class AlbumBean {
      */
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void putPicture(Integer page, String url) {
+        if (pictures == null)
+            pictures = new HashMap<>();
+        pictures.put(page, url);
+    }
+
+    @Override
+    public String toString() {
+        return "id=【" + id + "】，name=【" + name + "】，link=【" + link + "】，cover=【" + cover + "】";
     }
 }
