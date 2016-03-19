@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.sf.iactress.R;
 import com.sf.iactress.base.BaseRecyclerViewAdapter;
 import com.sf.iactress.bean.AlbumBean;
+import com.sf.iactress.utils.ImageOptionUtil;
 import com.sf.sf_utils.LogUtil;
 
 import java.util.ArrayList;
@@ -32,23 +33,11 @@ import java.util.List;
  * 描述：
  */
 public class AlbumAdapter extends BaseRecyclerViewAdapter<AlbumBean> {
-    private static final String TAG = AlbumAdapter.class.getSimpleName();
-    private DisplayImageOptions options;
     private int mItemWidth = 0;
 
     public AlbumAdapter(Context context, int itemWidth) {
         super(context);
         this.mItemWidth = itemWidth;
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_default)
-                .showImageForEmptyUri(R.drawable.ic_default)
-                .showImageOnFail(R.drawable.ic_default)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(100))// 淡入
-                .build();
     }
 
     @Override
@@ -62,7 +51,7 @@ public class AlbumAdapter extends BaseRecyclerViewAdapter<AlbumBean> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         onItemClickListener(viewHolder, position);
-        ImageLoader.getInstance().displayImage(getList().get(position).getCover(), viewHolder.imageView, options, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(getList().get(position).getCover(), viewHolder.imageView, ImageOptionUtil.defaultOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view, int imageWidth, int imageHeight) {
                 if (imageWidth != 0 && imageHeight != 0) {

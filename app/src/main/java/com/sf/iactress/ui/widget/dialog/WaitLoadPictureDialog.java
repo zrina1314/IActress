@@ -33,6 +33,7 @@ public class WaitLoadPictureDialog extends BaseDialog implements KanmxPictureAna
         super(context);
         this.mFirstPageUrl = firstPageUrl;
         loadPictures(mFirstPageUrl);
+        setOnKeyListener(keylistener);
     }
 
     @Override
@@ -45,7 +46,6 @@ public class WaitLoadPictureDialog extends BaseDialog implements KanmxPictureAna
         this.setCanceledOnTouchOutside(false);
         this.setDuration(500);
         this.setEffect(Effectstype.SLIDE_BOTTOM);
-        setOnKeyListener(keylistener);
     }
 
     @Override

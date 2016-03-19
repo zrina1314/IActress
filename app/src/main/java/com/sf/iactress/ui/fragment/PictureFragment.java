@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sf.iactress.R;
 import com.sf.iactress.base.Constans;
+import com.sf.iactress.utils.ImageOptionUtil;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -33,20 +34,9 @@ public class PictureFragment extends Fragment {
     private PhotoView mPhotoView;
     private ProgressBar mProgressBar;
     private String mPictureUrl;
-    private DisplayImageOptions options;
 
     public PictureFragment(String picture) {
         this.mPictureUrl = picture;
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_default)
-                .showImageForEmptyUri(R.drawable.ic_default)
-                .showImageOnFail(R.drawable.ic_default)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .displayer(new FadeInBitmapDisplayer(100))// 淡入
-                .build();
     }
 
     @Override
@@ -65,7 +55,7 @@ public class PictureFragment extends Fragment {
 
     protected void process() {
         String url = Constans.KANMX_URL + mPictureUrl;
-        ImageLoader.getInstance().displayImage(url, mPhotoView, options, null, new ImageLoadingProgressListener() {
+        ImageLoader.getInstance().displayImage(url, mPhotoView, ImageOptionUtil.defaultOptions, null, new ImageLoadingProgressListener() {
             @Override
             public void onProgressUpdate(String imageUri, View view, int current, int total) {
                 mProgressBar.setMax(total);
