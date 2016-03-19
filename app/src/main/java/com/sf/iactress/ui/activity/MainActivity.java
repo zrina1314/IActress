@@ -19,6 +19,7 @@ import com.sf.iactress.net.controller.ServiceGenerator;
 import com.sf.iactress.net.helper.GetKanmxService;
 import com.sf.iactress.ui.adapter.AlbumAdapter;
 import com.sf.iactress.ui.widget.DividerItemDecoration;
+import com.sf.iactress.ui.widget.dialog.WaitLoadPictureDialog;
 import com.sf.iactress.utils.UrlUtil;
 import com.sf.sf_utils.LogUtil;
 import com.sf.widget.superrecyclerview.OnMoreListener;
@@ -40,7 +41,7 @@ import retrofit2.Response;
  * 用途：
  * 描述：
  */
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener, BaseRecyclerViewAdapter.OnItemClickListener, KanmxPictureAnalysis.AnalysisListener {
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener, BaseRecyclerViewAdapter.OnItemClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<AlbumBean> mAlbumList = new ArrayList<>();
     @Bind(R.id.srv_album)
@@ -123,14 +124,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         mAlbumList.addAll(tempAlbumBeanList);
                         mAlbumAdapter.notifyItemRangeInserted(mAlbumList.size() - tempAlbumBeanList.size(), mAlbumList.size());
                         return;
-                    } else {
-                        LogUtil.getLogger().i(TAG, "解析相册失败了，当前第" + page + "页");
                     }
-                } else {
-                    LogUtil.getLogger().e(TAG, "加载网页成功了，但数据为空：");
-                    LogUtil.getLogger().e(TAG, result);
                 }
-                mAlbumAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -146,70 +141,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public void onItemClick(View view, int position) {
         AlbumBean bean = mAlbumList.get(position);
         LogUtil.getLogger().d(TAG, "点击index=【" + position + "】，数据=【" + bean.toString() + "】");
-
-        loadPictures(bean.getLink());
-
-
-    }
-
-
-    /**
-     * 加载图片信息
-     *
-     * @param url
-     */
-    private void loadPictures(String url) {
-
-
-        KanmxPictureAnalysis kanmxPictureAnalysis = new KanmxPictureAnalysis(url);
-        kanmxPictureAnalysis.startCrawler();
-        kanmxPictureAnalysis.setAnalysisListener(this);
-//        GetKanmxService getKanmxService = ServiceGenerator.createService2(GetKanmxService.class);
-//        Call<String> call = getKanmxService.getPictureList(url);
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                String result = response.body();
-//                if (!TextUtils.isEmpty(result)) {
-//                    Map<String, Object> tempPictureMap = KanmxAnalysisUtil.getInstance().getAnalysisPicture(result);
-//
-//                    String picture = (String) tempPictureMap.get("picture");
-//                    HashMap<Integer, String> pages = (HashMap<Integer, String>) tempPictureMap.get("pages");
-//                    LogUtil.getLogger().d(TAG, "图片路径：" + picture);
-//                    //gotoDetailPage(picture, pages);
-//                } else {
-//                    LogUtil.getLogger().e(TAG, "加载网页成功了，但数据为空：");
-//                    LogUtil.getLogger().e(TAG, result);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                LogUtil.getLogger().e(TAG, "加载网页失败了，失败原因：");
-//                LogUtil.getLogger().e(TAG, t.getMessage());
-//            }
-//        });
-    }
-
-    // 跳转到库详情页面
-    private void gotoDetailPage(String url, HashMap<Integer, String> pages) {
-        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
-        intent.putExtra("picture", url);
-        intent.putExtra("pages", pages);
-        startActivity(intent);
-
-    }
-
-    // 跳转到库详情页面
-    private void gotoDetailPage(ArrayList<String> pictureList) {
-        Intent intent = new Intent(MainActivity.this, PictureActivity.class);
-        intent.putExtra("pictures", pictureList);
-        startActivity(intent);
-
-    }
-
-    @Override
-    public void analysisComplete(List<String> pictureList) {
-        gotoDetailPage((ArrayList<String>) pictureList);
+        WaitLoadPictureDialog dialog = new WaitLoadPictureDialog(mContext, bean.getLink());
+        dialog.show();
     }
 }

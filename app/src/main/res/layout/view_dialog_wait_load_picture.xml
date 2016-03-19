@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/public_round_border_white_5">
+
+
+    <TextView
+        android:id="@+id/mDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:text="@string/wait_load_picture_title"
+        android:layout_marginTop="@dimen/y20"
+        android:paddingBottom="@dimen/y20"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="@dimen/y5"
+        android:textColor="@color/Color_A"
+        android:textSize="@dimen/FontSize_B" />
+
+    <View
+        android:id="@+id/mDialogTitleLine"
+        style="@style/publicLine"
+        android:layout_below="@id/mDialogTitle" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/mDialogIcon"
+        android:layout_width="@dimen/x174"
+        android:layout_height="@dimen/x174"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/x20"
+        android:layout_below="@id/mDialogTitleLine"
+        fresco:fadeDuration="600" />
+
+    <TextView
+        android:id="@+id/mDialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y80"
+        android:layout_below="@+id/mDialogIcon"
+        android:background="@drawable/public_list_row_selector"
+        android:gravity="center"
+        android:text="@string/wait_load_picture_message"
+        android:textColor="@color/Color_A"
+        android:textSize="@dimen/FontSize_B" />
+
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y80"
+        android:layout_below="@+id/mDialogMessage"
+        android:background="@drawable/public_list_row_selector"
+        android:gravity="center"
+        android:textColor="@color/Color_A"
+        android:textSize="@dimen/FontSize_C" />
+
+</RelativeLayout>

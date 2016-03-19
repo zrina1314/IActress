@@ -16,6 +16,8 @@ public class UrlUtil {
             path = new URI(url).getPath();
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return path;
     }

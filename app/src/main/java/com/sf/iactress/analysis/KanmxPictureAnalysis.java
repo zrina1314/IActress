@@ -24,9 +24,13 @@ import retrofit2.Response;
  * 描述：
  */
 public class KanmxPictureAnalysis {
+    private static final int THREAD_MAX_SIZE = 3;   //最大线程数
+    private GetKanmxService getKanmxService;
     private static final String TAG = KanmxPictureAnalysis.class.getSimpleName();
     private String mFirstPageUrl;
     private AnalysisListener mAnalysisListener;
+    private Map<String, Call<String>> mCallThreadPool = new HashMap<>(); //线程池
+    private List<String> mInProgress = new ArrayList<>();   //处理中的URL
     Map<Integer, String> pages = new HashMap<>();
     Map<String, String> pictures = new HashMap<>();
 
@@ -44,6 +48,7 @@ public class KanmxPictureAnalysis {
      * 开始爬取数据
      */
     public void startCrawler() {
+        LogUtil.getLogger().e(TAG, "开始爬取数据【" + DateUtil.getCurrentTime(DateUtil.DATE_FORMAT_8) + "】");
         crawlerData(mFirstPageUrl);
     }
 
@@ -55,13 +60,19 @@ public class KanmxPictureAnalysis {
      */
     private void crawlerData(String url) {
         url = UrlUtil.getPath(url);
+        mInProgress.add(url);
+        LogUtil.getLogger().e(TAG, "当前线程池，总数有：【" + mInProgress.size() + "】");
         LogUtil.getLogger().e(TAG, "当前时间：【" + DateUtil.getCurrentTime(DateUtil.DATE_FORMAT_8) + "】开始加载【" + url + "】");
-        GetKanmxService getKanmxService = ServiceGenerator.createService2(GetKanmxService.class);
+        if (getKanmxService == null)
+            getKanmxService = ServiceGenerator.createService2(GetKanmxService.class);
         Call<String> call = getKanmxService.getPictureList(url);
+        mCallThreadPool.put(url, call);
         final String finalUrl = url;
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                mInProgress.remove(finalUrl);
+                mCallThreadPool.remove(finalUrl);
                 String result = response.body();
                 if (!TextUtils.isEmpty(result)) {
                     Map<String, Object> tempPictureMap = KanmxAnalysisUtil.getInstance().getAnalysisPicture(result);
@@ -72,12 +83,15 @@ public class KanmxPictureAnalysis {
                     pictures.put(finalUrl, picture);
                     pages.putAll(tempPages);
                     LogUtil.getLogger().e(TAG, "当前时间：【" + DateUtil.getCurrentTime(DateUtil.DATE_FORMAT_8) + "】加载结束【" + finalUrl + "】,加载的图片结果【" + picture + "】");
+                    if (mAnalysisListener != null)
+                        mAnalysisListener.analysisProgress(pictures.size());
                     nextCrawlerData();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                mCallThreadPool.remove(call);
             }
         });
     }
@@ -92,11 +106,14 @@ public class KanmxPictureAnalysis {
             String val = (String) entry.getValue();
             val = UrlUtil.getPath(val);
             if (!pictures.containsKey(val)) {
+                if (mInProgress.contains(val)) continue;
                 crawlerData(val);
-                return;
+                if (mCallThreadPool.size() >= THREAD_MAX_SIZE)
+                    return;
             }
         }
-        if (i == pages.size()) {
+        if (i == pages.size() && mInProgress.size() == 0) {
+            LogUtil.getLogger().e(TAG, "爬取结束数据【" + DateUtil.getCurrentTime(DateUtil.DATE_FORMAT_8) + "】");
             LogUtil.getLogger().e(TAG, "已经全部加载完成了，总共【" + pictures.size() + "】张图片");
             if (mAnalysisListener != null)
                 mAnalysisListener.analysisComplete(map2List());
@@ -124,6 +141,8 @@ public class KanmxPictureAnalysis {
     public interface AnalysisListener {
         //void analysisError();
         void analysisComplete(List<String> pictureList);
+
+        void analysisProgress(int PictureSun);
     }
 
 }
