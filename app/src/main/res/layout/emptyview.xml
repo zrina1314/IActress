@@ -8,8 +8,8 @@
     android:paddingTop="180dp">
 
     <ImageView
-        android:layout_width="@dimen/x250"
-        android:layout_height="@dimen/x250"
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/x300"
         android:layout_marginBottom="20dp"
         android:src="@drawable/ic_error" />
 
