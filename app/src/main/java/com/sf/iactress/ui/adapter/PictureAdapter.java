@@ -1,15 +1,9 @@
 package com.sf.iactress.ui.adapter;
 
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.sf.iactress.R;
 import com.sf.iactress.ui.fragment.PictureFragment;
 
 import java.util.ArrayList;

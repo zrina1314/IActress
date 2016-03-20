@@ -122,7 +122,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         if (page == 1)
                             mAlbumList.clear();
                         mAlbumList.addAll(tempAlbumBeanList);
-                        mAlbumAdapter.notifyItemRangeInserted(mAlbumList.size() - tempAlbumBeanList.size(), mAlbumList.size());
+                        if (page == 1)
+                            mAlbumAdapter.notifyDataSetChanged();
+                        else
+                            mAlbumAdapter.notifyItemRangeInserted(mAlbumList.size() - tempAlbumBeanList.size(), mAlbumList.size());
                         return;
                     }
                 }

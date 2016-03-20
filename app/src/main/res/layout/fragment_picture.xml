@@ -8,7 +8,7 @@
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_below="@+id/panel_update_info"
         android:max="100"
         android:progressDrawable="@drawable/public_progressbar_gray_blue_bj"
