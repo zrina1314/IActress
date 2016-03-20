@@ -1,6 +1,5 @@
 package com.sf.iactress.ui.activity;
 
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -10,7 +9,6 @@ import android.view.WindowManager;
 
 import com.sf.iactress.R;
 import com.sf.iactress.analysis.KanmxAnalysisUtil;
-import com.sf.iactress.analysis.KanmxPictureAnalysis;
 import com.sf.iactress.base.BaseActivity;
 import com.sf.iactress.base.BaseRecyclerViewAdapter;
 import com.sf.iactress.base.Constans;
@@ -20,15 +18,12 @@ import com.sf.iactress.net.helper.GetKanmxService;
 import com.sf.iactress.ui.adapter.AlbumAdapter;
 import com.sf.iactress.ui.widget.DividerItemDecoration;
 import com.sf.iactress.ui.widget.dialog.WaitLoadPictureDialog;
-import com.sf.iactress.utils.UrlUtil;
 import com.sf.sf_utils.LogUtil;
 import com.sf.widget.superrecyclerview.OnMoreListener;
 import com.sf.widget.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
