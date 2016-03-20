@@ -3,4 +3,5 @@
     <string name="wait_load_picture_title">哥哥，你不要那么心急嘛~</string>
     <string name="wait_load_picture_message">容伦家多加载一会~~~~~</string>
     <string name="wait_load_picture_progress">已加载了%1$s张图片</string>
+    <string name="no_picture">没有图片啦</string>
 </resources>
