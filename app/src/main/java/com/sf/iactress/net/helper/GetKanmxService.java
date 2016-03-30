@@ -1,6 +1,6 @@
 package com.sf.iactress.net.helper;
 
-import com.sf.iactress.base.Constans;
+import com.sf.iactress.base.Constants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -15,7 +15,7 @@ public interface GetKanmxService {
     @GET("AAA/xinggan/index_{page}.html")
     Call<String> getAlbumList(@Path("page") int page);
 
-    @GET(Constans.KANMX_HOME_PAGE_URL)
+    @GET(Constants.KANMX_HOME_PAGE_URL)
     Call<String> getAlbumHomePageList();
 
     @GET("{url}")

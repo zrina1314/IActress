@@ -15,64 +15,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by 花心大萝卜 on 2016/3/6.
  * 用途：Kanmx数据分析工具
  * 描述：分析性感美女相册/图片数据
  */
-public class KanmxAnalysisUtil {
-    private static final String TAG = KanmxAnalysisUtil.class.getSimpleName();
-    private static KanmxAnalysisUtil mKanmxAnalysisUtil;
+public class KanmxAlbumAnalysisUtil {
+    private static final String TAG = KanmxAlbumAnalysisUtil.class.getSimpleName();
+    private static KanmxAlbumAnalysisUtil mKanmxAnalysisUtil;
 
-    private KanmxAnalysisUtil() {
+    private KanmxAlbumAnalysisUtil() {
 
     }
 
     /**
      * 获取单例
      */
-    public static KanmxAnalysisUtil getInstance() {
+    public static KanmxAlbumAnalysisUtil getInstance() {
         if (mKanmxAnalysisUtil == null) {
-            synchronized (KanmxAnalysisUtil.class) {
+            synchronized (KanmxAlbumAnalysisUtil.class) {
                 if (mKanmxAnalysisUtil == null)
-                    mKanmxAnalysisUtil = new KanmxAnalysisUtil();
+                    mKanmxAnalysisUtil = new KanmxAlbumAnalysisUtil();
             }
         }
         return mKanmxAnalysisUtil;
     }
-
-//    /**
-//     * 获取相册数据
-//     *
-//     * @param page 页码
-//     * @
-//     */
-//    public void loadListByPage(int page) {
-//        try {
-//            Document doc = Jsoup.connect(Constans.KANMX_URL).timeout(5000).post();
-//            Document content = Jsoup.parse(doc.toString());
-//            Elements divs = content.select("#siteNav");
-//            Document divcontions = Jsoup.parse(divs.toString());
-//            Elements element = divcontions.getElementsByTag("li");
-//            Log.d("element", element.toString());
-//            for (Element links : element) {
-//                String title = links.getElementsByTag("a").text();
-//
-//                String link = links.select("a").attr("href").replace("/", "").trim();
-//                String url = Constans.KANMX_URL + link;
-//                ContentValues values = new ContentValues();
-//                values.put("Title", title);
-//                values.put("Url", url);
-//                // usedatabase.insert("Cach", values);
-//            }
-//
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * 解析相册数据

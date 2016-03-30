@@ -1,6 +1,7 @@
 package com.sf.iactress.base;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sf.iactress.R;
+import com.sf.iactress.ui.widget.dialog.ProgressDialog;
 
 /**
  * Activity管理的base类
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity implements IProgress {
 
     private static String TAG = BaseActivity.class.getSimpleName();
     protected Context mContext;
+    private Dialog mProgressDialog;
     protected View mTitleView;
     protected ImageView mTitleLeftImg, mTitleRightImg, mSearchImg;
     protected TextView mTitleLeftLabel, mTitleLabel;
@@ -50,12 +53,12 @@ public abstract class BaseActivity extends Activity {
             mRightLabelLayout = findViewById(R.id.mRightLabelLayout);
             mRightSearchLayout = findViewById(R.id.mRightSearchLayout);
 
-//            setLeftIcon(R.drawable.ic_back, new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finish();
-//                }
-//            });
+            setLeftIcon(R.drawable.ic_back, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
 
             initTitleBar();
         }
@@ -202,4 +205,30 @@ public abstract class BaseActivity extends Activity {
      * 业务逻辑处理
      */
     protected abstract void process();
+
+
+    @Override
+    public void showProgress() {
+        if (mProgressDialog == null || !(mProgressDialog instanceof ProgressDialog)) {
+            mProgressDialog = new ProgressDialog(this);
+//            mProgressDialog.setCancelable(isCancelable);
+//            mOldProgressMessage = tips;
+        }
+        if (!mProgressDialog.isShowing())
+            mProgressDialog.show();
+
+//        showProgress(R.string.server_loading);
+    }
+
+    @Override
+    public void dismissProgress() {
+        if (isFinishing()) {
+            mProgressDialog = null;
+            return;
+        }
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 }

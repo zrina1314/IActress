@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/public_head_title"/>
+
+    <View style="@style/publicLine"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/y5"
+        android:layout_below="@+id/panel_update_info"
+        android:max="100"
+        android:progressDrawable="@drawable/public_progressbar_gray_blue_bj"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/mWebViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/panel_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:paddingTop="@dimen/y180"
+        android:gravity="top|center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/x130"
+            android:layout_height="@dimen/x130"
+            android:layout_marginBottom="@dimen/y40"
+            android:src="@drawable/ic_error"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Your_network_is_not_very_good"
+            android:textColor="@color/Color_B"
+            android:textSize="@dimen/FontSize_C"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,10 +1,26 @@
+/**
+ * ****************************************************************************
+ * 系统名称   ：速运通App
+ * 客户           ： 速运通研发人员
+ * 文件名       ： AbstractNetworkWrapper.java
+ * (C) Copyright sf_Express Corporation 2014
+ * All Rights Reserved.
+ * *****************************************************************************
+ * 注意： 本内容仅限于顺丰速运资讯科技本部IT产品中心内部使用，禁止转发
+ * ****************************************************************************
+ */
+
 package com.sf.iactress.ui.widget.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -12,27 +28,21 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.sf.iactress.R;
-import com.sf.iactress.analysis.KanmxPictureAnalysisUtil;
-import com.sf.iactress.ui.activity.PictureActivity;
 import com.sf.iactress.ui.widget.dialog.effects.Effectstype;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by 花心大萝卜 on 2016/3/19.
- * 用途：等待加载图片Dialog
- * 描述：
+ * 进度条对话框
+ * @author 431896
+ * @date 2014-5-20 上午10:00:01
+ * @see
+ * @since v5.0
  */
-public class WaitLoadPictureDialog extends BaseDialog implements KanmxPictureAnalysisUtil.AnalysisListener {
+public class ProgressDialog extends BaseDialog {
     private SimpleDraweeView mImgLoad;
     private TextView mTvProgress;
-    private String mFirstPageUrl;
 
-    public WaitLoadPictureDialog(Context context, String firstPageUrl) {
+    public ProgressDialog(Context context) {
         super(context);
-        this.mFirstPageUrl = firstPageUrl;
-        loadPictures(mFirstPageUrl);
         setOnKeyListener(keylistener);
     }
 
@@ -56,35 +66,6 @@ public class WaitLoadPictureDialog extends BaseDialog implements KanmxPictureAna
             DraweeController controller = Fresco.newDraweeControllerBuilder().setAutoPlayAnimations(true).setImageRequest(ImageRequestBuilder.newBuilderWithResourceId(R.drawable.ic_load_picture).build()).build();
             mImgLoad.setController(controller);
         }
-    }
-
-    /**
-     * 加载图片信息
-     *
-     * @param url
-     */
-    private void loadPictures(String url) {
-        KanmxPictureAnalysisUtil kanmxPictureAnalysis = new KanmxPictureAnalysisUtil(url);
-        kanmxPictureAnalysis.startCrawler();
-        kanmxPictureAnalysis.setAnalysisListener(this);
-    }
-
-    @Override
-    public void analysisComplete(List<String> pictureList) {
-        dismiss();
-        gotoDetailPage((ArrayList<String>) pictureList);
-    }
-
-    @Override
-    public void analysisProgress(int PictureSun) {
-        mTvProgress.setText(mContext.getResources().getString(R.string.wait_load_picture_progress, PictureSun + ""));
-    }
-
-    // 跳转到库详情页面
-    private void gotoDetailPage(ArrayList<String> pictureList) {
-        Intent intent = new Intent(mContext, PictureActivity.class);
-        intent.putExtra("pictures", pictureList);
-        mContext.startActivity(intent);
     }
 
     OnKeyListener keylistener = new DialogInterface.OnKeyListener() {

@@ -23,10 +23,10 @@ import retrofit2.Response;
  * 用途：图片分析工具
  * 描述：
  */
-public class KanmxPictureAnalysis {
+public class KanmxPictureAnalysisUtil {
     private static final int THREAD_MAX_SIZE = 3;   //最大线程数
     private GetKanmxService getKanmxService;
-    private static final String TAG = KanmxPictureAnalysis.class.getSimpleName();
+    private static final String TAG = KanmxPictureAnalysisUtil.class.getSimpleName();
     private String mFirstPageUrl;
     private AnalysisListener mAnalysisListener;
     private Map<String, Call<String>> mCallThreadPool = new HashMap<>(); //线程池
@@ -39,7 +39,7 @@ public class KanmxPictureAnalysis {
      *
      * @param firstPageUrl 第一页URL
      */
-    public KanmxPictureAnalysis(String firstPageUrl) {
+    public KanmxPictureAnalysisUtil(String firstPageUrl) {
         this.mFirstPageUrl = firstPageUrl;
     }
 
@@ -75,7 +75,7 @@ public class KanmxPictureAnalysis {
                 mCallThreadPool.remove(finalUrl);
                 String result = response.body();
                 if (!TextUtils.isEmpty(result)) {
-                    Map<String, Object> tempPictureMap = KanmxAnalysisUtil.getInstance().getAnalysisPicture(result);
+                    Map<String, Object> tempPictureMap = KanmxAlbumAnalysisUtil.getInstance().getAnalysisPicture(result);
 
                     String picture = (String) tempPictureMap.get("picture");
                     Map<Integer, String> tempPages = (Map<Integer, String>) tempPictureMap.get("pages");

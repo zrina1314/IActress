@@ -2,22 +2,17 @@ package com.sf.iactress.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.sf.iactress.R;
-import com.sf.iactress.base.Constans;
+import com.sf.iactress.base.Constants;
 import com.sf.iactress.utils.ImageOptionUtil;
 
 import uk.co.senab.photoview.PhotoView;
@@ -54,7 +49,7 @@ public class PictureFragment extends Fragment {
     }
 
     protected void process() {
-        String url = Constans.KANMX_URL + mPictureUrl;
+        String url = Constants.KANMX_URL + mPictureUrl;
         ImageLoader.getInstance().displayImage(url, mPhotoView, ImageOptionUtil.defaultOptions, null, new ImageLoadingProgressListener() {
             @Override
             public void onProgressUpdate(String imageUri, View view, int current, int total) {

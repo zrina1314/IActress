@@ -28,6 +28,14 @@
         <activity
             android:name=".ui.activity.PictureActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebPlayActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".ui.activity.WebPlay2Activity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape"/>
     </application>
 
 

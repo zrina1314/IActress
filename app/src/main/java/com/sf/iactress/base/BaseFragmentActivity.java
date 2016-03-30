@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sf.iactress.R;
+import com.sf.iactress.ui.widget.dialog.ProgressDialog;
 
-public abstract class BaseFragmentActivity extends FragmentActivity {
+public abstract class BaseFragmentActivity extends FragmentActivity implements IProgress {
 
     private static final String TAG = BaseFragmentActivity.class.getSimpleName();
     public Context mContext;
@@ -123,6 +124,16 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 隐藏左边按钮
+     */
+    public void setLeftInvisible() {
+        if (mLeftImgLayout != null)
+            mLeftImgLayout.setVisibility(View.GONE);
+        if (mLeftLabelLayout != null)
+            mLeftLabelLayout.setVisibility(View.GONE);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -161,4 +172,30 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
      * 逻辑处理
      */
     protected abstract void process();
+
+
+    @Override
+    public void showProgress() {
+        if (mProgressDialog == null || !(mProgressDialog instanceof ProgressDialog)) {
+            mProgressDialog = new ProgressDialog(this);
+//            mProgressDialog.setCancelable(isCancelable);
+//            mOldProgressMessage = tips;
+        }
+        if (!mProgressDialog.isShowing())
+            mProgressDialog.show();
+
+//        showProgress(R.string.server_loading);
+    }
+
+    @Override
+    public void dismissProgress() {
+        if (isFinishing()) {
+            mProgressDialog = null;
+            return;
+        }
+
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 }

@@ -4,4 +4,9 @@
     <string name="wait_load_picture_message">容伦家多加载一会~~~~~</string>
     <string name="wait_load_picture_progress">已加载了%1$s张图片</string>
     <string name="no_picture">没有图片啦</string>
+
+    <string name="i_like_to_watch">我喜欢看</string>
+    <string name="picture">图片</string>
+    <string name="video">视频</string>
+    <string name="Your_network_is_not_very_good">对不起，您的网络不太好,请稍后重试!</string>
 </resources>
