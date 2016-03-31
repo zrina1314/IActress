@@ -52,7 +52,7 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
     SuperRecyclerView mRvAlbum;
     private VideoAdapter mAlbumAdapter;
     private int page = 1;
-
+    private static final int COLUM_COUNT = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
 
     protected void initView(View view) {
         mRvAlbum = (SuperRecyclerView) view.findViewById(R.id.srv_album);
-        mRvAlbum.setLayoutManager(new StaggeredGridLayoutManager(Constants.COLUM_COUNT, StaggeredGridLayoutManager.VERTICAL));
+        mRvAlbum.setLayoutManager(new StaggeredGridLayoutManager(COLUM_COUNT, StaggeredGridLayoutManager.VERTICAL));
         initRecyclerView();
     }
 
@@ -100,7 +100,7 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
         //获取每列宽度
         WindowManager wm = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        int spanWidth = display.getWidth() / Constants.COLUM_COUNT;
+        int spanWidth = display.getWidth() / COLUM_COUNT;
         return spanWidth;
     }
 
