@@ -47,6 +47,8 @@ public class VideoBean {
      * @return
      */
     public String getName() {
+        if (name.indexOf("xiannvw.com") != -1 || name.indexOf("xianvw.com") != -1)
+            return name.replaceAll("xiannvw.com", "").replaceAll("xianvw.com", "");
         return name;
     }
 

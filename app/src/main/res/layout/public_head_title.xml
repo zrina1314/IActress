@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/head_title"
-    android:layout_width="fill_parent"
-    android:layout_height="38dip"
-    android:background="@color/Color_C">
+                android:id="@+id/head_title"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/y89"
+                android:background="@color/Color_C">
 
     <RelativeLayout
         android:id="@+id/mLeftImgLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/public_list_row_selector"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@drawable/public_list_row_selector">
 
         <ImageView
             android:id="@+id/mLeftImg"
             style="@style/styleTitleImg"
-            android:layout_marginRight="10dip" />
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/mLeftLabelLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/public_list_row_selector"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@drawable/public_list_row_selector">
 
         <TextView
             android:id="@+id/mLeftLabel"
             style="@style/styleTitleLabel"
+            android:paddingLeft="@dimen/x20"
+            android:paddingRight="@dimen/x20"
             android:layout_centerVertical="true"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:singleLine="true" />
+            android:singleLine="true"/>
     </RelativeLayout>
 
     <TextView
@@ -40,6 +41,7 @@
         style="@style/styleTitle"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y24"
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/app_name" />
@@ -47,61 +49,61 @@
     <ImageView
         android:id="@+id/mMiddleImg"
         style="@style/styleTitleImg"
-        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/mMiddleLabel"
+        android:layout_centerVertical="true"
         android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/mMiddleLabel"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
         android:gravity="center_vertical|right"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/mRightSearchLayout"
-            android:layout_width="60dip"
+            android:layout_width="@dimen/x100"
             android:layout_height="match_parent"
-            android:background="@drawable/public_list_row_selector"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:background="@drawable/public_list_row_selector">
 
             <ImageView
                 android:id="@+id/mRightSearch"
-                android:layout_width="48dip"
-                android:layout_height="48dip"
+                android:layout_width="@dimen/x48"
+                android:layout_height="@dimen/x48"
                 android:layout_centerInParent="true"
-                android:focusable="false" />
+                android:focusable="false"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/mRightLabelLayout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/public_list_row_selector"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:background="@drawable/public_list_row_selector">
 
             <TextView
                 android:id="@+id/mRightLabel"
                 style="@style/styleTitleLabel"
                 android:layout_centerInParent="true"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:paddingLeft="@dimen/x20"
+                android:paddingRight="@dimen/x20"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/mRightImgLayout"
-            android:layout_width="60dip"
+            android:layout_width="@dimen/x100"
             android:layout_height="match_parent"
-            android:background="@drawable/public_list_row_selector"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:background="@drawable/public_list_row_selector">
 
             <ImageView
                 android:id="@+id/mRightImg"
                 style="@style/styleTitleImg"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
 
     </LinearLayout>

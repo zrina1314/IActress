@@ -20,8 +20,8 @@
     </style>
 
     <style name="styleTitleImg">
-        <item name="android:layout_width">38dip</item>
-        <item name="android:layout_height">38dip</item>
+        <item name="android:layout_width">@dimen/x48</item>
+        <item name="android:layout_height">@dimen/x48</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@android:color/transparent</item>
